@@ -30,7 +30,8 @@ do
     DIR=${SWIG_FILE_NAME//_/\/}
     OUTPUT="$OUT/$DIR"
     [ -d "$OUTPUT" ] && rm "$OUTPUT"/*.* || mkdir -p "$OUTPUT"
-    swig -c++ -$LANG -small -O -outcurrentdir -I./Swig -I./Swig/include -I$HOME/.remaken/packages/$COMPILER/xpcf/$XPCF_VERSION/interfaces -I$HOME/.remaken/packages/SolARBuild/$COMPILER/SolARFramework/$SOLAR_VERSION/interfaces -DXPCF_USE_BOOST -dllimport SolARWrapper -namespace ${SWIG_FILE_NAME//_/.} -outdir $OUTPUT $swigfile
+    echo swig -c++ -$LANG -small -O -outcurrentdir -I./Swig -I./Swig/include -I$HOME/.remaken/packages/$COMPILER/xpcf/$XPCF_VERSION/interfaces -I$HOME/.remaken/packages/SolARBuild/$COMPILER/SolARFramework/$SOLAR_VERSION/interfaces -DXPCF_USE_BOOST -dllimport SolARWrapper -namespace ${SWIG_FILE_NAME//_/.} -outdir $OUTPUT $swigfile
+	swig -c++ -$LANG -small -O -outcurrentdir -I./Swig -I./Swig/include -I$HOME/.remaken/packages/$COMPILER/xpcf/$XPCF_VERSION/interfaces -I$HOME/.remaken/packages/SolARBuild/$COMPILER/SolARFramework/$SOLAR_VERSION/interfaces -DXPCF_USE_BOOST -dllimport SolARWrapper -namespace ${SWIG_FILE_NAME//_/.} -outdir $OUTPUT $swigfile
 done
 
 popd
