@@ -6,48 +6,96 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
     parameters {
-        gitParameter branchFilter: 'origin/(.*)', type: 'PT_BRANCH', selectedValue: 'DEFAULT',
-                name: 'BRANCH', defaultValue: 'develop', useRepository: '.*SwigWrapper.git'
+        booleanParam(name: 'RELEASE',
+            defaultValue: false,
+            description: 'Create a Release') 
+        booleanParam(name: 'PRE_RELEASE',
+            defaultValue: false,
+            description: 'Create a Pre Release' )                          
     }
+    triggers { pollSCM('*/10 * * * *') }   
     stages {
 
-        stage("Checkout"){
-            steps {
-                sh "git checkout ${BRANCH}"
-            }
-        }
+        stage("Get Third Parties") {
+             steps {
+                 script {
+                     BRANCH = BRANCH_NAME.replace('/','_')
+                     version = getVersion()
+                 }
+                 withCredentials([string(credentialsId: 'artifactoryApiKey', variable: 'apiKey')]) {
+                    installRemaken(params.RELEASE,BRANCH,apiKey)
+                 }
+             }
+        }   
 
-        stage("Get Binaries") {
+        stage("checkout SolARPipelineManager"){
             steps {
-                script {
-                     BRANCH = BRANCH.replace('/','_')
-                }
-                withCredentials([usernamePassword(credentialsId: 'bc6e150e-ede8-4e35-8af4-0f037edee8ac', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                     getBinaries(BRANCH,USERNAME,PASSWORD)
+                dir ("SolARPipelineManager") {
+                    git branch: BRANCH, changelog: false, credentialsId: 'github-solarBcom', poll: false, url: 'https://github.com/SolarFramework/SolARPipelineManager.git'
                 }
             }
-        }    
+        }   
 
         stage("Build") {
+             steps {
+                sh "./_build_ci.sh SolARPipelineManager"
+                buildModule("")                   
+             }
+        }
+
+        stage("Build Debug") {
+            when {
+                expression { params.RELEASE == true || params.PRE_RELEASE == true }
+            }            
+             steps {
+                buildModule("debug")                   
+             }
+        }
+
+
+         stage("Generate artifacts") {
             steps {
-                withEnv(['REMAKEN_RULES_ROOT=/home/jenkins/.remaken/rules/']) {
-                    sh "qmake SolARWrapper.pro"
-                    sh "make"
+                script {
+                     prepareRelease("SolARBuild","linux-gcc","SolARWrapper")                
+                }
+            }
+        }  
+
+        // Trigger only if not a RELEASE
+        stage("Upload to Artifactory") {
+            when {
+                expression { params.RELEASE == false & params.PRE_RELEASE == false}
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'bc6e150e-ede8-4e35-8af4-0f037edee8ac', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    uploadArchive(BRANCH,"SolARWrapper/${version}/linux","${WORKSPACE}/artifactory/x86_64_shared_release/SolARWrapper_${version}_x86_64_shared_release.zip",USERNAME,PASSWORD)
                 }
             }
         }
 
-        stage("Share Binaries") {
-            steps {
-                script {
-                     sh "make install"
-                     BRANCH = BRANCH.replace('/','_')
-                }
-                withCredentials([usernamePassword(credentialsId: 'bc6e150e-ede8-4e35-8af4-0f037edee8ac', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                     shareBinaries(BRANCH,USERNAME,PASSWORD)
-                }
+        stage("Pre-Release") {
+            when {
+                expression { params.PRE_RELEASE == true }
             }
-        }        
+            steps {                
+                withCredentials([string(credentialsId: 'github-token', variable: 'token')]) {
+                    preRelease("SwigWrapper","SolARWrapper/${version}/linux","SolARWrapper Version ${version} for Linux","${WORKSPACE}/artifactory/x86_64_shared_release/SolARWrapper_${version}_x86_64_shared_release.zip ${WORKSPACE}/artifactory/x86_64_shared_debug/SolARWrapper_${version}_x86_64_shared_debug.zip",token);
+                }
+            }   
+        }    
+
+
+        stage("Release") {
+            when {
+                expression { params.RELEASE == true }
+            }
+            steps {                
+                withCredentials([string(credentialsId: 'github-token', variable: 'token')]) {
+                    release("SwigWrapper","SolARWrapper/${version}/linux","SolARWrapper Version ${version} for Linux","${WORKSPACE}/artifactory/x86_64_shared_release/SolARWrapper_${version}_x86_64_shared_release.zip ${WORKSPACE}/artifactory/x86_64_shared_debug/SolARWrapper_${version}_x86_64_shared_debug.zip",token);
+                }
+            }   
+        }    
+   
     }
 
 }
