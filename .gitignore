@@ -6,3 +6,80 @@
 /Swig/*.cpp
 /build
 /Swig/*.py
+*.user
+
+*-Debug
+
+*-Release
+
+*.vcxproj*
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+.\build
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+#others
+*.*pre1
+*.rej
+*.stash
+*.rc
+*.res
+*.exp
+*.ilk
+*.pdb
+*.autosave
+
+# Visual Studio files
+.vs*
+x64*
+*-packagedependencies.txt
+*-packagedependencies-win.txt
+
+# generated documentation
+doc/ 
+
+*.log
+*.tlog
+*.TMP
+*.tmp
+
+tests/bin
+
+build/
+
+*InstallDependencies.bat
+*debug.bat
+*release.bat
+*remakeninfo.txt
+*.pc
