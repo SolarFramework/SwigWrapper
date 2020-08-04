@@ -1,4 +1,5 @@
 SolArModulePipeline {
     moduleName="SolARWrapper"
     dirName="SolARBuild"
+    android=true
 }
