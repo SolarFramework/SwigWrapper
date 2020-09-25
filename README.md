@@ -33,7 +33,7 @@ If there is new interfaces in SolARFramework you should add them to the wrapper.
 #### New namespace
 
 * Add every namespace `./Swig/SolAR_<namespace>.i`
-* Edit `SolARWrapper.pro` to add new namespace in `SOURCES=`
+* Edit `SolARWrapper.pri` to add new namespace in `SOURCES=`
 * Edit `./Swig/SolAR.i` :  `%import` and `using`
 
 #### New interface
