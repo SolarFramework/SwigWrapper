@@ -1,36 +1,53 @@
 # SolARWrapper
 
-Le wrapper est un ensemble de script SWIG qui permet d’utiliser SolAR dans d’autres langages que le c++. On peut imaginer que certain utilisateurs veuille l’utiliser en python, java, ou bien évidement c#.
+[![License](https://img.shields.io/github/license/SolARFramework/SwigWrapper?style=flat-square&label=License)](https://www.apache.org/licenses/LICENSE-2.0)
 
-Evidemment, si on veut utiliser SolAR en python, il y a probablement quelques ajustements à faire, c’est donc plutôt destiné aux utilisateurs avertis (contributeurs ?)
+The **SolAR Wrapper** is made of several [SWIG](http://www.swig.org/) scripts which allow us to use the whole SolAR API in languages other than C++, such as C# for Unity environment. But we can imagine other languages like Java, Python...
 
-Une fois ce wrapper « compilé », il génère du code et une dll à destination de l’utilisateur final.
+The Simplified Wrapper and Interface Generator (SWIG) is an open-source software tool used to connect computer programs or libraries written in C or C++ with scripting languages such as Lua, Perl, PHP, Python, R, Ruby, Tcl, and other languages like C#, Java, JavaScript, Go, D, OCaml, Octave, Scilab and Scheme. Output can also be in the form of XML.
 
-PS : le fichier _build.bat qui « compile » en un ensemble de script c# (dans out/csharp) et un script c++. Le CMake permet ensuite de compiler ce code c++ en une DLL.
+The export of SolAR pipelines to Unity is described on the website section, [Assemble/Export your pipeline for Unity](http://www.solarframework.org/assemble/unity_pipeline/#export_your_pipeline_for_unity).
 
+## How to build
 
-# Mettre a jour le Wrapper
+* Download [Swig](http://www.swig.org/) (use for wrapping), unzip the archive, and add an environment variable to `Path` for the `swig.exe`. 
 
-Lors d'une nouvelle version de SolARFramework:
-Mettre a jour la version:
-- packagedependencies.txt
-- _build.bat
-- SolARWrapper.pro
+* Run `./_build.bat` will generate a set of csharp files in `$REMAKEN_PKG_ROOT/packages/SolARBuild/win-cl-14.1/SolARWrapper/0.8.0/csharp/` from c++ which includes XPCF and SolARFramework interfaces.
 
-Si il y a de nouveaux namespace:
-- Ajouter chaque namespace dans swig/<namespace>.i
-- CMakeLists.txt
-- SolARWrapper.pro
-- SolAR.i: %import et using
+* It will also call `BuildCSharp.bat` script from [SolARPipelineManager](https://github.com/SolarFramework/SolARPipelineManager).
 
-Si il y a de nouvelles interfaces:
-Dans les fichiers *.i correspondant:
-- Ajouter les #include
-- Ajouter les %include
-- Ajouter les %shared_ptr si besoin
-- SolAR.i: #include et BIND_TO_INTERFACE
+* Then open `SolARWrapper.pro` and build it.
 
-Dans SolAR.i:
-Ajouter les #include
+## How to update SWIG files
+
+### Version
+If there is a new version of SolARFramework you should update version of the framework for :
+* `packagedependencies.txt`
+* `SolARWrapper.pro`
+* `_build.bat`
+* `SolARPipelineManager/_BuildCSharp.bat`
+
+### Interface/namespace
+If there is new interfaces in SolARFramework you should add them to the wrapper. You will need to edit SWIG rules.
+
+#### New namespace
+
+* Add every namespace `./Swig/SolAR_<namespace>.i`
+* Edit `SolARWrapper.pri` to add new namespace in `SOURCES=`
+* Edit `./Swig/SolAR.i` :  `%import` and `using`
+
+#### New interface
+
+In the dedicated `*.i` :
+* Add `#include`
+* Add `%include`
+* Add `%shared_ptr` if required
+* Add `#include` and `BIND_TO_INTERFACE` in `./Swig/SolAR.i`
+
+## Contact 
+Website https://solarframework.github.io/
+
+Contact framework.solar@b-com.com
+
 
 

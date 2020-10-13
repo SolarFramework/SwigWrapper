@@ -1,18 +1,7 @@
-/.vs
 /*.cxx
-/*.user
 /out/
-/*.xml
 /Swig/*.cpp
-/build
 /Swig/*.py
-*.user
-
-*-Debug
-
-*-Release
-
-*.vcxproj*
 
 # Prerequisites
 *.d
@@ -22,8 +11,7 @@
 *.lo
 *.o
 *.obj
-
-.\build
+build/
 
 # Precompiled Headers
 *.gch
@@ -44,12 +32,51 @@
 *.a
 *.lib
 
+# Visual Studio files
+*.ib_pdb_index
+*.idb
+*.ilk
+*.pdb
+*.sln
+*.suo
+*.vcproj
+*vcproj.*.*.user
+*.vcxproj*
+*.user
+*.user.*
+*.ncb
+*.sdf
+*.opensdf
+*.vcxproj
+*vcxproj.*
+x64/
+.vs/
+*.bat
+*remakeninfo.txt
+Debug/
+Release/
+*-packagedependencies.*
+*-packagedependencies-win.*
+*-packagedependencies-linux.*
+*-packagedependencies-unix.*
+*-packagedependencies-android.*
+*.pc
+*-Debug
+*-Release
+
 # Executables
 *.exe
 *.out
 *.app
 
-#others
+# Generated documentation
+doc/ 
+doxygen/
+
+# Tests builds
+tests/bin
+
+# Others
 *.*pre1
 *.rej
 *.stash
@@ -59,27 +86,10 @@
 *.ilk
 *.pdb
 *.autosave
-
-# Visual Studio files
-.vs*
-x64*
-*-packagedependencies.txt
-*-packagedependencies-win.txt
-
-# generated documentation
-doc/ 
-
+*.project
+*.props
 *.log
 *.tlog
 *.TMP
 *.tmp
-
-tests/bin
-
-build/
-
-*InstallDependencies.bat
-*debug.bat
-*release.bat
-*remakeninfo.txt
-*.pc
+.git Merge
