@@ -3,16 +3,22 @@
 //#include "datastructure/BufferInternal.hpp" //TODO: Does not include its own dependencies
 #include "datastructure/CameraDefinitions.h"
 #include "datastructure/CloudPoint.h"
+#include "datastructure/CoordinateSystem.h"
 #include "datastructure/DescriptorBuffer.h"
 #include "datastructure/DescriptorMatch.h"
+#include "datastructure/FiducialMarker.h"
 #include "datastructure/Frame.h"
 #include "datastructure/GeometryDefinitions.h"
+#include "datastructure/Identification.h"
 #include "datastructure/Image.h"
 #include "datastructure/Keyframe.h"
 #include "datastructure/Keypoint.h"
-#include "datastructure/Map.h"
 #include "datastructure/MathDefinitions.h"
+#include "datastructure/PointCloud.h"
+#include "datastructure/PrimitiveInformation.h"
 #include "datastructure/SquaredBinaryPattern.h"
+#include "datastructure/Trackable.h"
+#include "datastructure/Trackable2D.h"
 
 using namespace SolAR::datastructure;
 %}
@@ -34,19 +40,28 @@ using namespace SolAR::datastructure;
 %apply void *VOID_INT_PTR { void * }
 %apply void *VOID_INT_PTR { unsigned char * }
 
+%shared_ptr(SolAR::datastructure::CameraDefinition)
+%shared_ptr(SolAR::datastructure::CloudPoint)
+%shared_ptr(SolAR::datastructure::CoordinateSystem)
 %shared_ptr(SolAR::datastructure::DescriptorBuffer)
+%shared_ptr(SolAR::datastructure::DescriptorMatch)
+%shared_ptr(SolAR::datastructure::FiducialMarker)
 %shared_ptr(SolAR::datastructure::Frame)
+%shared_ptr(SolAR::datastructure::GeometryDefinitions)
+%shared_ptr(SolAR::datastructure::Identification)
 %shared_ptr(SolAR::datastructure::Image)
 %shared_ptr(SolAR::datastructure::Keyframe)
-%shared_ptr(SolAR::datastructure::Map)
+%shared_ptr(SolAR::datastructure::Keypoint)
+%shared_ptr(SolAR::datastructure::PointCloud)
+%shared_ptr(SolAR::datastructure::PrimitiveInformation)
 %shared_ptr(SolAR::datastructure::SquaredBinaryPattern)
+%shared_ptr(SolAR::datastructure::Trackable)
+%shared_ptr(SolAR::datastructure::Trackable2D)
 %shared_ptr(SolAR::datastructure::Point2Di)
 %shared_ptr(SolAR::datastructure::Point3Di)
 %shared_ptr(SolAR::datastructure::Point3Df)
 %shared_ptr(SolAR::datastructure::Point2Df)
 %shared_ptr(SolAR::datastructure::Contour2Df)
-%shared_ptr(SolAR::datastructure::CloudPoint)
-%shared_ptr(SolAR::datastructure::Keypoint)
 
 %rename(MapIntCloudPoint) std::map<unsigned int, SolAR::datastructure::CloudPoint, std::less<unsigned int>>;
 %template(MapIntCloudPoint) std::map<unsigned int, SolAR::datastructure::CloudPoint, std::less<unsigned int>>;
@@ -95,22 +110,14 @@ using namespace SolAR::datastructure;
 ///
 
 
-%include "Eigen.i"
-%include "datastructure/MathDefinitions.h"
-%include "MathDefinitions.i"
 
-%include "datastructure/CameraDefinitions.h"
-
-
-//#include "datastructure/MathDefinitions.i"
-%rename("$ignore", regextarget=1, fullname=1) "SolAR::datastructure::Point.D.::operator.*$";
-%include "datastructure/GeometryDefinitions.h"
 
 %ignore SolAR::datastructure::BufferInternal::data() const;
 %include "datastructure/BufferInternal.hpp"
 
-//#include "datastructure/GeometryDefinitions.i"
+%include "datastructure/CameraDefinitions.h"
 %include "datastructure/CloudPoint.h"
+%include "datastructure/CoordinateSystem.h"
 
 //#include "BufferInternal.i"
 %rename (EgalOperator) SolAR::datastructure::DescriptorView::operator=;
@@ -122,35 +129,31 @@ using namespace SolAR::datastructure;
 %include "datastructure/DescriptorBuffer.h"
 
 %include "datastructure/DescriptorMatch.h"
+%include "datastructure/FiducialMarker.h"
+%include "datastructure/Frame.h"
+%include "datastructure/Identification.h"
+%include "datastructure/Frame.h"
 
-//#include "GeometryDefinitions.i"
+%rename("$ignore", regextarget=1, fullname=1) "SolAR::datastructure::Point.D.::operator.*$";
+%include "datastructure/GeometryDefinitions.h"
+%include "datastructure/Identification.h"
+
 %ignore SolAR::datastructure::Image::data() const;
 %ignore SolAR::datastructure::Image::extractRegion(Rectanglei region);
 %ignore SolAR::datastructure::Image::extractRegion(Rectanglei region, uint32_t channel);
 %include "datastructure/Image.h"
-
-//#include "datastructure/GeometryDefinitions.i"
+%include "datastructure/Keyframe.h"
 %include "datastructure/Keypoint.h"
 
-//#include "datastructure/GeometryDefinitions.i"
-//#include "datastructure/CloudPoint.i"
-%include "datastructure/Map.h"
-
-//#include "datastructure/MathDefinitions.i"
+%include "Eigen.i"
+%include "datastructure/MathDefinitions.h"
+%include "MathDefinitions.i"
+%include "datastructure/PointCloud.h"
+%include "datastructure/PrimitiveInformation.h"
 namespace SolAR {namespace datastructure {class SquaredBinaryPatternMatrix{};}} //TODO: This a matrix with runtime dimensions
 %include "datastructure/SquaredBinaryPattern.h"
-
-//#include "datastructure/GeometryDefinitions.i"
-//#include "datastructure/Image.i"
-//#include "datastructure/Keypoint.i"
-//#include "datastructure/DescriptorBuffer.i"
-//#include "datastructure/DescriptorMatch.i"
-//#include "datastructure/CloudPoint.i"
-%include "datastructure/Frame.h"
-
-//#include "datastructure/GeometryDefinitions.i"
-//#include "Frame.i"
-%include "datastructure/Keyframe.h"
+%include "datastructure/Trackable.h"
+%include "datastructure/Trackable2D.h"
 
 ///
 
@@ -168,17 +171,17 @@ void * newPointer()
 %enddef
 
 EMPTY_POINTER(BufferInternal)
+EMPTY_POINTER(CameraParameters)
 EMPTY_POINTER(CamDistortion)
+EMPTY_POINTER(CamCalibration)
 EMPTY_POINTER(CloudPoint)
+EMPTY_POINTER(CoordinateSystem)
 EMPTY_POINTER(DescriptorBuffer)
 EMPTY_POINTER(DescriptorMatch)
+EMPTY_POINTER(FiducialMarker)
+EMPTY_POINTER(Frame)
 EMPTY_POINTER(Edge2Df)
 EMPTY_POINTER(Edge2Di)
-EMPTY_POINTER(Frame)
-EMPTY_POINTER(Image)
-EMPTY_POINTER(Keyframe)
-EMPTY_POINTER(Keypoint)
-EMPTY_POINTER(Map)
 EMPTY_POINTER(Point2Df)
 EMPTY_POINTER(Contour2Df)
 EMPTY_POINTER(Point2Di)
@@ -187,8 +190,15 @@ EMPTY_POINTER(Point3Di)
 EMPTY_POINTER(Rectanglei)
 EMPTY_POINTER(Sizef)
 EMPTY_POINTER(Sizei)
-EMPTY_POINTER(SquaredBinaryPattern)
-EMPTY_POINTER(SquaredBinaryPatternMatrix)
+EMPTY_POINTER(Identification)
+EMPTY_POINTER(Image)
+EMPTY_POINTER(Keyframe)
+EMPTY_POINTER(Keypoint)
 EMPTY_POINTER(Transform2Df)
 EMPTY_POINTER(Transform3Df)
 EMPTY_POINTER(Vector3f)
+EMPTY_POINTER(PointCloud)
+EMPTY_POINTER(Primitiveinformation)
+EMPTY_POINTER(SquaredBinaryPattern)
+EMPTY_POINTER(Trackable)
+EMPTY_POINTER(Trackable2D)
