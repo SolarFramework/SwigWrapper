@@ -1,7 +1,7 @@
 %module xpcf_traits
 %{
-#include "xpcf/component/ComponentTraits.h"
 #include "xpcf/api/InterfaceTraits.h"
+#include "xpcf/component/ComponentTraits.h"
 #include "xpcf/core/traits.h"
 %}
 
@@ -11,7 +11,7 @@
 
 %typemap(csimports) SWIGTYPE
 %{
-    using XPCF.Core;
+	using XPCF.Core;
 %}
 
 ///
@@ -20,6 +20,7 @@
 
 %include "xpcf/component/ComponentTraits.h"
 
-//%include "xpcf/traits/InterfaceTraits.i"
-//%include "xpcf/traits/ComponentTraits.i"
+//#include "xpcf/core/uuid.h"
+//#include "xpcf/api/InterfaceTraits.h"
+//#include "xpcf/component/ComponentTraits.h"
 %include "xpcf/core/traits.h"

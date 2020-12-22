@@ -30,7 +30,7 @@ using namespace SolAR::datastructure;
 
 %typemap(csimports) SWIGTYPE
 %{
-    //using XPCF.Core;
+    using XPCF.Core;
     using SolAR.Core;
 %}
 
@@ -71,9 +71,9 @@ using namespace SolAR::datastructure;
 // Vector<T>
 %rename(DescriptorMatchVector) std::vector<SolAR::datastructure::DescriptorMatch>;
 %template(DescriptorMatchVector) std::vector<SolAR::datastructure::DescriptorMatch>;
-//SWIG_STD_VECTOR_ENHANCED(SolAR::datastructure::Transform3Df)
 //%rename(Transform3DfList) std::vector<SolAR::datastructure::Transform3Df>;
 //%template(Transform3DfList) std::vector<SolAR::datastructure::Transform3Df>;
+//SWIG_STD_VECTOR_ENHANCED(SolAR::datastructure::Transform3Df)
 %rename(Transform3DfList) std::vector<Eigen::Transform<float,3,Eigen::Affine, Eigen::RowMajor>>;
 %template(Transform3DfList) std::vector<Eigen::Transform<float,3,Eigen::Affine, Eigen::RowMajor>>;
 //SWIG_STD_VECTOR_ENHANCED(SolAR::datastructure::Point2Df)
@@ -98,7 +98,6 @@ using namespace SolAR::datastructure;
 %rename(IntVector) std::vector<int>;
 %template(IntVector) std::vector<int>;
 
-
 // Vector<SRef<T>>
 %rename(DescriptorBufferList) std::vector<SRef<SolAR::datastructure::DescriptorBuffer>>;
 %template(DescriptorBufferList) std::vector<SRef<SolAR::datastructure::DescriptorBuffer>>;
@@ -109,60 +108,101 @@ using namespace SolAR::datastructure;
 
 ///
 
-
-
-
 %ignore SolAR::datastructure::BufferInternal::data() const;
 %include "datastructure/BufferInternal.hpp"
 
-%include "datastructure/CameraDefinitions.h"
-%include "datastructure/CloudPoint.h"
-%include "datastructure/CoordinateSystem.h"
-
-//#include "BufferInternal.i"
-%rename (EgalOperator) SolAR::datastructure::DescriptorView::operator=;
+//TODO
+//#include "BufferInternal.hpp"
+%ignore SolAR::datastructure::DescriptorView::DescriptorView(const DescriptorView &);
+//%rename (EgalOperator) SolAR::datastructure::DescriptorView::operator=;
+%ignore SolAR::datastructure::DescriptorView::operator=;
+%ignore SolAR::datastructure::DescriptorView::data() const;
+%ignore SolAR::datastructure::DescriptorBuffer::operator+;
+%ignore SolAR::datastructure::DescriptorBuffer::operator*;
+%ignore SolAR::datastructure::DescriptorBuffer::operator/;
+%ignore SolAR::datastructure::DescriptorBuffer::data() const;
 %ignore SolAR::datastructure::DescriptorBufferIterator::operator++;
 %ignore SolAR::datastructure::DescriptorBufferIterator::operator!=;
 %ignore SolAR::datastructure::DescriptorBufferIterator::operator*;
-%ignore SolAR::datastructure::DescriptorView::data() const;
-%ignore SolAR::datastructure::DescriptorBuffer::data() const;
+%ingore SolAR::datastructure::DescriptorViewTemplate;
 %include "datastructure/DescriptorBuffer.h"
+//%template(DescriptorView8U) SolAR::datastructure::DescriptorViewTemplate<uint8_t>;
+//%template(DescriptorView32F) SolAR::datastructure::DescriptorViewTemplate<float>;
 
-%include "datastructure/DescriptorMatch.h"
-%include "datastructure/FiducialMarker.h"
-%include "datastructure/Frame.h"
-%include "datastructure/Identification.h"
-%include "datastructure/Frame.h"
-
-%rename("$ignore", regextarget=1, fullname=1) "SolAR::datastructure::Point.D.::operator.*$";
-%include "datastructure/GeometryDefinitions.h"
-%include "datastructure/Identification.h"
-
-%ignore SolAR::datastructure::Image::data() const;
-%ignore SolAR::datastructure::Image::extractRegion(Rectanglei region);
-%ignore SolAR::datastructure::Image::extractRegion(Rectanglei region, uint32_t channel);
-%include "datastructure/Image.h"
-%include "datastructure/Keyframe.h"
-%include "datastructure/Keypoint.h"
+%ignore SolAR::datastructure::PrimitiveInformation;
+%include "datastructure/PrimitiveInformation.h"
 
 %include "Eigen.i"
 %include "datastructure/MathDefinitions.h"
 %include "MathDefinitions.i"
+
+//#include "datastructure/MathDefinitions.h"
+%rename("$ignore", regextarget=1, fullname=1) "SolAR::datastructure::Point.D.::operator.*$";
+%include "datastructure/GeometryDefinitions.h"
+
+//#include <datastructure/GeometryDefinitions.h>
+%include "datastructure/CameraDefinitions.h"
+
+//#include "datastructure/GeometryDefinitions.h"
+//#include "datastructure/DescriptorBuffer.h"
+//#include "datastructure/PrimitiveInformation.h"
+%include "datastructure/CloudPoint.h"
+
+//#include "datastructure/GeometryDefinitions.h"
+//#include "datastructure/CloudPoint.h"
+%ignore SolAR::datastructure::PointCloud::operator=;
 %include "datastructure/PointCloud.h"
-%include "datastructure/PrimitiveInformation.h"
+
+//#include "GeometryDefinitions.h"
+//#include "datastructure/MathDefinitions.h"
+%include "datastructure/CoordinateSystem.h"
+
+%include "datastructure/DescriptorMatch.h"
+
+//#include "datastructure/MathDefinitions.h"
+//#include "datastructure/GeometryDefinitions.h"
+%include "datastructure/Identification.h"
+
+//#include "GeometryDefinitions.h"
+%ignore SolAR::datastructure::Image::data() const;
+%ignore SolAR::datastructure::Image::extractRegion(Rectanglei region);
+%ignore SolAR::datastructure::Image::extractRegion(Rectanglei region, uint32_t channel);
+%include "datastructure/Image.h"
+
+//#include "datastructure/GeometryDefinitions.h"
+%include "datastructure/Keypoint.h"
+
+//#include "datastructure/GeometryDefinitions.h"
+//#include "datastructure/Image.h"
+//#include "datastructure/Keypoint.h"
+//#include "datastructure/DescriptorBuffer.h"
+//#include "datastructure/DescriptorMatch.h"
+//#include "datastructure/CloudPoint.h"
+%include "datastructure/Frame.h"
+
+//#include "datastructure/GeometryDefinitions.h"
+//#include "Frame.h"
+%include "datastructure/Keyframe.h"
+
+//#include "datastructure/MathDefinitions.h"
 namespace SolAR {namespace datastructure {class SquaredBinaryPatternMatrix{};}} //TODO: This a matrix with runtime dimensions
 %include "datastructure/SquaredBinaryPattern.h"
+
 %include "datastructure/Trackable.h"
+
+//#include <datastructure/Trackable.h>
+//#include <datastructure/GeometryDefinitions.h>
 %include "datastructure/Trackable2D.h"
+
+//#include <datastructure/SquaredBinaryPattern.h>
+//#include <datastructure/Trackable2D.h>
+%include "datastructure/FiducialMarker.h"
 
 ///
 
 %inline %{
 template <class T>
-void * newPointer()
-{
-	return new SRef<T>();
-};
+void * newPointer() {return new SRef<T>();};
 %}
 
 %define EMPTY_POINTER(NAME)

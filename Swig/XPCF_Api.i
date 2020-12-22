@@ -4,13 +4,17 @@
 #include "xpcf/api/IComponentIntrospect.h"
 #include "xpcf/api/IComponentManager.h"
 #include "xpcf/api/IConfigurable.h"
-#include "xpcf/module/IModuleIndex.h"
-#include "xpcf/api/IModuleManager.h"
-#include "xpcf/api/InterfaceMetadata.h"
-#include "xpcf/api/ModuleMetadata.h"
-#include "xpcf/xpcf.h"
 #include "xpcf/api/IInjectable.h"
+#include "xpcf/api/IModuleManager.h"
 #include "xpcf/api/InjectableMetadata.h"
+#include "xpcf/api/InterfaceMetadata.h"
+//#include "xpcf/api/InterfaceTraits.h" // Moved to XPCF_Traits
+#include "xpcf/api/ModuleMetadata.h"
+
+#include "xpcf/xpcf.h"
+#include "xpcf/core/Exception.h"
+#include "xpcf/module/IModuleIndex.h"
+#include "xpcf/component/ComponentFactory.h"
 %}
 
 %include "Swig.i"
@@ -23,17 +27,13 @@
 %pragma(csharp) moduleimports=
 %{
 	using XPCF.Core;
-    using XPCF.Collection;
-    using XPCF.Properties;
-    using XPCF.Traits;
 %}
 
 %typemap(csimports) SWIGTYPE
 %{
-    using XPCF.Core;
-    using XPCF.Collection;
-    using XPCF.Properties;
-    using XPCF.Traits;
+	using XPCF.Core;
+	using XPCF.Collection;
+	using XPCF.Properties;
 %}
 
 ///
@@ -44,6 +44,8 @@
 %shared_ptr(org::bcom::xpcf::IConfigurable)
 %shared_ptr(org::bcom::xpcf::IInjectable)
 %shared_ptr(org::bcom::xpcf::IModuleManager)
+%shared_ptr(org::bcom::xpcf::InjectableMetadata)
+%shared_ptr(org::bcom::xpcf::Injector)
 %shared_ptr(org::bcom::xpcf::InterfaceMetadata)
 %shared_ptr(org::bcom::xpcf::ModuleMetadata)
 
@@ -55,34 +57,36 @@
 //%nodefaultctor org::bcom::xpcf::InterfaceMetadata;
 %include "xpcf/api/InterfaceMetadata.h"
 
-//#include "xpcf/api/InterfaceMetadata.i"
+//#include "xpcf/api/InterfaceMetadata.h"
 namespace boost{namespace filesystem{}}
 %ignore org::bcom::xpcf::ComponentMetadata::ComponentMetadata(const ComponentMetadata & other);
 %ignore org::bcom::xpcf::ComponentMetadata::operator=;
 %ignore org::bcom::xpcf::ComponentMetadata::operator==;
 %include "xpcf/api/ComponentMetadata.h"
 
-//#include "xpcf/api/ComponentMetadata.i"
+//#include "xpcf/api/ComponentMetadata.h"
 %ignore org::bcom::xpcf::IModuleIndex; //TODO Multiple inheritance
 //%interface_impl(org::bcom::xpcf::IModuleIndex);
 //%shared_ptr(org::bcom::xpcf::IModuleIndex)
 %include "xpcf/module/IModuleIndex.h"
 
-//#include "xpcf/api/IModuleIndex.i"
-//#include "xpcf/api/InterfaceMetadata.i"
+//#include "xpcf/module/IModuleIndex.h"
+//#include "xpcf/api/InterfaceMetadata.h"
 %ignore org::bcom::xpcf::ModuleMetadata::getFullPath() const;
 %include "xpcf/api/ModuleMetadata.h"
 
-//#include "xpcf/api/InterfaceMetadata.i"
+//#include "xpcf/api/InterfaceMetadata.h"
 %ignore org::bcom::xpcf::IComponentIntrospect::getMetadata;
 %include "xpcf/api/IComponentIntrospect.h"
 %rename(queryInterface) org::bcom::xpcf::IComponentIntrospect::queryInterface<org::bcom::xpcf::IComponentIntrospect>;
 %template(queryInterface) org::bcom::xpcf::IComponentIntrospect::queryInterface<org::bcom::xpcf::IComponentIntrospect>;
 
+//#include "IComponentIntrospect.h"
+%ignore org::bcom::xpcf::Injector;
+%include "xpcf/api/InjectableMetadata.h"
+
 //#include <xpcf/api/IComponentIntrospect.h>
 //#include <xpcf/api/InjectableMetadata.h>
-//#include <xpcf/core/uuid.h>
-//#include <xpcf/core/XPCFErrorCode.h>
 //TODO instanciate templates
 %ignore org::bcom::xpcf::IInjectable::getInjectables;
 %ignore org::bcom::xpcf::IInjectable::inject;
@@ -98,34 +102,33 @@ template <typename I> bool injectExists() const;
 template <typename I> bool injectExists(const char * name) const;
 */
 
-//#include "xpcf/api/IInjectable.i"
-//#include "xpcf/api/InterfaceMetadata.i"
-//#include "xpcf/api/ComponentMetadata.i"
-//#include "xpcf/api/ModuleMetadata.i"
+%include "xpcf/component/ComponentFactory.h"
+
+//#include <xpcf/api/IInjectable.h>
+//#include <xpcf/api/InterfaceMetadata.h>
+//#include <xpcf/api/ComponentMetadata.h>
+//#include <xpcf/api/ModuleMetadata.h>
+//#include <xpcf/component/ComponentFactory.h>
+%ignore org::bcom::xpcf::IComponentManager::bind;
+%ignore org::bcom::xpcf::IComponentManager::bindLocal;
 %include "xpcf/api/IComponentManager.h"
 
-//#include "xpcf/api/IComponentIntrospect.i"
+//#include "xpcf/api/IComponentIntrospect.h"
 %include "xpcf/api/IConfigurable.h"
 
-//#include "xpcf/api/IComponentIntrospect.i"
-//#include "xpcf/api/ModuleMetadata.i"
+//#include "xpcf/api/IComponentIntrospect.h"
+//#include "xpcf/api/ModuleMetadata.h"
 %include "xpcf/api/IModuleManager.h"
 
-//#include "xpcf/api/IComponentManager.i"
-//#include "xpcf/api/IConfigurable.i"
+//#include "xpcf/api/IComponentManager.h"
+//#include "xpcf/api/IConfigurable.h"
 %include "xpcf/xpcf.h"
 
-//#include "IComponentIntrospect.h"
-//#include <xpcf/core/uuid.h>
-%include "xpcf/api/InjectableMetadata.h"
-
-//#include "xpcf/core/uuid.i"
-//#include "xpcf/core/xpcf_api_define.i"
-//#include "xpcf/core/XPCFErrorCode.i"
 //#include "xpcf/api/InjectableMetadata.h"
 %ignore std::runtime_error;
 namespace std{class runtime_error {};}
 %ignore org::bcom::xpcf::Exception::Exception(const std::string & what, XPCFErrorCode errCode = XPCFErrorCode::_FAIL);
+%ignore org::bcom::xpcf::ConfigurationException::ConfigurationException(const std::string & what, XPCFErrorCode errCode = XPCFErrorCode::_FAIL);
 %ignore org::bcom::xpcf::AccessDeniedException::AccessDeniedException(const std::string & what);
 %ignore org::bcom::xpcf::IllegalStateException::IllegalStateException(const std::string & what);
 %ignore org::bcom::xpcf::ModuleException::ModuleException(const std::string & what, XPCFErrorCode errCode = XPCFErrorCode::_FAIL);
@@ -139,7 +142,5 @@ namespace std{class runtime_error {};}
 %ignore org::bcom::xpcf::InjectionException::InjectionException(const std::string & what, XPCFErrorCode errCode = XPCFErrorCode::_FAIL);
 %ignore org::bcom::xpcf::InjectableNotFoundException::InjectableNotFoundException(const std::string & what);
 %ignore org::bcom::xpcf::InjectableDeclarationException::InjectableDeclarationException(const std::string & what);
+%ignore org::bcom::xpcf::RemotingException::RemotingException(const std::string & what);
 %include "xpcf/core/Exception.h"
-
-
-

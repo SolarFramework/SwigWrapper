@@ -11,8 +11,8 @@
 
 %typemap(csimports) SWIGTYPE
 %{
-    using XPCF.Core;
-    using XPCF.Collection;
+	using XPCF.Core;
+	using XPCF.Collection;
 %}
 
 ///
@@ -24,7 +24,7 @@
 
 %include "xpcf/properties/IProperty.h"
 
-//%include "xpcf/properties/IProperty.i"
+//#include "xpcf/properties/IProperty.h"
 //ignore wrapping methods
 %rename("$ignore", regextarget=1, fullname=1) "org::bcom::xpcf::IPropertyMap::wrap.*$";
 %include "xpcf/properties/IPropertyMap.h"

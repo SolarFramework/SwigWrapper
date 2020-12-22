@@ -1,5 +1,8 @@
 %module xpcf_collection
 %{
+#include "xpcf/collection/BlockEnumerator.h"
+#include "xpcf/collection/Collection.h"
+#include "xpcf/collection/Enumerator.h"
 #include "xpcf/collection/ICollection.h"
 #include "xpcf/collection/IEnumerable.h"
 #include "xpcf/collection/IEnumerator.h"
@@ -8,12 +11,12 @@
 %include "Swig.i"
 
 %import (module="XPCF.Core") "XPCF_Core.i"
-%import (module="XPCF.Api") "XPCF_Api.i"
+
+%import (module="XPCF.Api") "XPCF_Api.i" // for template instantiation
 
 %typemap(csimports) SWIGTYPE
 %{
 	using XPCF.Core;
-	using XPCF.Api;
 %}
 
 ///
@@ -41,7 +44,13 @@
 %ignore org::bcom::xpcf::Iterator::operator++;
 %include "xpcf/collection/IEnumerator.h"
 
-//%include "xpcf/collection/IEnumerator.i"
+//#include "xpcf/collection/IEnumerator.h"
+//%include "xpcf/collection/Enumerator.h" //TODO Error
+
+//#include "Enumerator.h"
+//%include "xpcf/collection/BlockEnumerator.h" //TODO Error
+
+//#include "xpcf/collection/IEnumerator.h"
 %typemap(csimports) org::bcom::xpcf::IEnumerable
 %{
 	using System.Collections;
@@ -61,8 +70,13 @@
 #pragma SWIG nowarn=320 //Explicit template instantiation ignored.
 %include "xpcf/collection/IEnumerable.h"
 
-//%include "xpcf/collection/IEnumerable.i"
+//#include "xpcf/collection/IEnumerable.h"
 %include "xpcf/collection/ICollection.h"
+
+//#include <xpcf/collection/ICollection.h>
+//#include <xpcf/collection/Enumerator.h>
+//#include <xpcf/collection/BlockEnumerator.h>
+//%include "xpcf/collection/Collection.h" //TODO Error
 
 ///
 

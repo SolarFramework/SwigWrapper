@@ -2,6 +2,7 @@
 %{
 #include "core/Log.h"
 #include "core/Messages.h"
+#include "core/SerializationDefinitions.h"
 #include "core/SolARFramework.h"
 #include "core/SolARFrameworkDefinitions.h"
 %}
@@ -19,13 +20,18 @@
 
 ///
 
+%include "core/Messages.h"
+
 %ignore SolAR::getSolARFrameworkVersion(); //TODO Missing implementation
 %include "core/SolARFramework.h"
 
 %include "core/SolARFrameworkDefinitions.h"
 
-//%include "SolARFrameworkDefinitions.i"
+//#include "SolARFrameworkDefinitions.h"
+%ignore SolAR::Log::logger(); // spdlog::logger
 %include "core/Log.h"
 
-//%include "Log.i"
-%include "core/Messages.h"
+//#include <core/SolARFrameworkDefinitions.h>
+%include "core/SerializationDefinitions.h"
+#undef DECLARESERIALIZE
+#define DECLARESERIALIZE(T) //

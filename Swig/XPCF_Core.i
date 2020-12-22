@@ -1,12 +1,14 @@
 %module xpcf_core
 %{
+//#include "xpcf/core/Exception.h" // Moved to XPCF_Api
 #include "xpcf/core/helpers.h"
 #include "xpcf/core/refs.h"
 #include "xpcf/core/Result.h"
+//#include "xpcf/core/traits.h" // Moved to XPCF_Traits
 #include "xpcf/core/uuid.h"
-#include "xpcf/core/traits.h"
-#include "xpcf/xpcf_api_define.h"
 #include "xpcf/core/XPCFErrorCode.h"
+
+#include "xpcf/xpcf_api_define.h"
 %}
 
 %include "Swig.i"
@@ -14,7 +16,6 @@
 ///
 
 %include "xpcf/core/helpers.h"
-
 
 %include "xpcf/xpcf_api_define.h"
 
@@ -44,5 +45,5 @@ namespace boost {namespace movelib {}}
 
 %include "xpcf/core/XPCFErrorCode.h"
 
-//#include "xpcf/core/XPCFErrorCode.i"
+//#include "xpcf/core/XPCFErrorCode.h"
 %include "xpcf/core/Result.h"
