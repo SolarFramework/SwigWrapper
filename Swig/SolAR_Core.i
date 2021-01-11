@@ -15,11 +15,6 @@
 
 ///
 
-%rename(CharList) std::vector<char const *>;
-%template(CharList) std::vector<char const *>;
-
-///
-
 %include "core/Messages.h"
 
 %ignore SolAR::getSolARFrameworkVersion(); //TODO Missing implementation
@@ -29,6 +24,7 @@
 
 //#include "SolARFrameworkDefinitions.h"
 %ignore SolAR::Log::logger(); // spdlog::logger
+%ignore SolAR::Log::add_sink_file( std::vector<const char*>& args ); // const char* -> IntPtr or string
 %include "core/Log.h"
 
 //#include <core/SolARFrameworkDefinitions.h>

@@ -36,10 +36,7 @@ using namespace SolAR::datastructure;
 
 ///
 
-// Use System.IntPtr from C# for void* pointers
-%apply void *VOID_INT_PTR { void * }
-%apply void *VOID_INT_PTR { unsigned char * }
-
+// SRef
 %shared_ptr(SolAR::datastructure::CameraDefinition)
 %shared_ptr(SolAR::datastructure::CloudPoint)
 %shared_ptr(SolAR::datastructure::CoordinateSystem)
@@ -63,17 +60,17 @@ using namespace SolAR::datastructure;
 %shared_ptr(SolAR::datastructure::Point2Df)
 %shared_ptr(SolAR::datastructure::Contour2Df)
 
+// Map<T>
 %rename(MapIntCloudPoint) std::map<unsigned int, SolAR::datastructure::CloudPoint, std::less<unsigned int>>;
 %template(MapIntCloudPoint) std::map<unsigned int, SolAR::datastructure::CloudPoint, std::less<unsigned int>>;
 %rename(MapIntInt) std::map<unsigned int, unsigned int, std::less<unsigned int>>;
 %template(MapIntInt) std::map<unsigned int, unsigned int, std::less<unsigned int>>;
 
 // Vector<T>
+//SWIG_STD_VECTOR_ENHANCED(SolAR::datastructure::DescriptorMatch)
 %rename(DescriptorMatchVector) std::vector<SolAR::datastructure::DescriptorMatch>;
 %template(DescriptorMatchVector) std::vector<SolAR::datastructure::DescriptorMatch>;
-//%rename(Transform3DfList) std::vector<SolAR::datastructure::Transform3Df>;
-//%template(Transform3DfList) std::vector<SolAR::datastructure::Transform3Df>;
-//SWIG_STD_VECTOR_ENHANCED(SolAR::datastructure::Transform3Df)
+//SWIG_STD_VECTOR_ENHANCED(SolAR::datastructure::Transform)
 %rename(Transform3DfList) std::vector<Eigen::Transform<float,3,Eigen::Affine, Eigen::RowMajor>>;
 %template(Transform3DfList) std::vector<Eigen::Transform<float,3,Eigen::Affine, Eigen::RowMajor>>;
 //SWIG_STD_VECTOR_ENHANCED(SolAR::datastructure::Point2Df)
@@ -89,14 +86,21 @@ using namespace SolAR::datastructure;
 %rename(KeypointArray) std::vector<SolAR::datastructure::Keypoint>;
 %template(KeypointArray) std::vector<SolAR::datastructure::Keypoint>;
 //SWIG_STD_VECTOR_ENHANCED(SolAR::datastructure::CloudPoint)
-%rename(CloudPointVector) std::vector<SolAR::datastructure::CloudPoint>;
-%template(CloudPointVector) std::vector<SolAR::datastructure::CloudPoint>;
+//%rename(CloudPointVector) std::vector<SolAR::datastructure::CloudPoint>;
+//%template(CloudPointVector) std::vector<SolAR::datastructure::CloudPoint>;
 //SWIG_STD_VECTOR_ENHANCED(unsigned int)
 %rename(UIntVector) std::vector<unsigned int>;
 %template(UIntVector) std::vector<unsigned int>;
 //SWIG_STD_VECTOR_ENHANCED(int)
 %rename(IntVector) std::vector<int>;
 %template(IntVector) std::vector<int>;
+//SWIG_STD_VECTOR_ENHANCED(double)
+%rename(DoubleVector) std::vector<double>;
+%template(DoubleVector) std::vector<double>;
+
+// Vector<Pair<T>>
+%rename(UIntPairVector) std::vector<std::pair<unsigned int, unsigned int>>;
+%template(UIntPairVector) std::vector<std::pair<unsigned int, unsigned int>>;
 
 // Vector<SRef<T>>
 %rename(DescriptorBufferList) std::vector<SRef<SolAR::datastructure::DescriptorBuffer>>;
@@ -105,6 +109,8 @@ using namespace SolAR::datastructure;
 %template(ImageList) std::vector<SRef<SolAR::datastructure::Image>>;
 %rename(KeyframeList) std::vector<SRef<SolAR::datastructure::Keyframe>>;
 %template(KeyframeList) std::vector<SRef<SolAR::datastructure::Keyframe>>;
+%rename(CloudPointList) std::vector<SRef<SolAR::datastructure::CloudPoint>>;
+%template(CloudPointList) std::vector<SRef<SolAR::datastructure::CloudPoint>>;
 
 ///
 
@@ -115,19 +121,14 @@ using namespace SolAR::datastructure;
 //#include "BufferInternal.hpp"
 %ignore SolAR::datastructure::DescriptorView::DescriptorView(const DescriptorView &);
 //%rename (EgalOperator) SolAR::datastructure::DescriptorView::operator=;
-%ignore SolAR::datastructure::DescriptorView::operator=;
+%rename("$ignore", regextarget=1, fullname=1) "SolAR::datastructure::Descriptor.*::operator.*$";
 %ignore SolAR::datastructure::DescriptorView::data() const;
-%ignore SolAR::datastructure::DescriptorBuffer::operator+;
-%ignore SolAR::datastructure::DescriptorBuffer::operator*;
-%ignore SolAR::datastructure::DescriptorBuffer::operator/;
+%ignore SolAR::datastructure::DescriptorViewTemplate::DescriptorViewTemplate(const DescriptorViewTemplate & desc);
+%ignore SolAR::datastructure::DescriptorViewTemplate::data() const;
 %ignore SolAR::datastructure::DescriptorBuffer::data() const;
-%ignore SolAR::datastructure::DescriptorBufferIterator::operator++;
-%ignore SolAR::datastructure::DescriptorBufferIterator::operator!=;
-%ignore SolAR::datastructure::DescriptorBufferIterator::operator*;
-%ingore SolAR::datastructure::DescriptorViewTemplate;
 %include "datastructure/DescriptorBuffer.h"
-//%template(DescriptorView8U) SolAR::datastructure::DescriptorViewTemplate<uint8_t>;
-//%template(DescriptorView32F) SolAR::datastructure::DescriptorViewTemplate<float>;
+%template(DescriptorView8U) SolAR::datastructure::DescriptorViewTemplate<uint8_t>;
+%template(DescriptorView32F) SolAR::datastructure::DescriptorViewTemplate<float>;
 
 %ignore SolAR::datastructure::PrimitiveInformation;
 %include "datastructure/PrimitiveInformation.h"
@@ -161,6 +162,7 @@ using namespace SolAR::datastructure;
 
 //#include "datastructure/MathDefinitions.h"
 //#include "datastructure/GeometryDefinitions.h"
+namespace std {namespace chrono {namespace system_clock{class time_point{};}}}
 %include "datastructure/Identification.h"
 
 //#include "GeometryDefinitions.h"
@@ -238,7 +240,6 @@ EMPTY_POINTER(Transform2Df)
 EMPTY_POINTER(Transform3Df)
 EMPTY_POINTER(Vector3f)
 EMPTY_POINTER(PointCloud)
-EMPTY_POINTER(Primitiveinformation)
 EMPTY_POINTER(SquaredBinaryPattern)
 EMPTY_POINTER(Trackable)
 EMPTY_POINTER(Trackable2D)

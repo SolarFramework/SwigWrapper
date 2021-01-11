@@ -20,6 +20,7 @@
 %include "xpcf/xpcf_api_define.h"
 
 %rename (UUID) boost::uuids::uuid;
+%nodefaultctor boost::uuids::uuid;
 namespace boost {namespace uuids {class uuid{};}}
 %csmethodmodifiers boost::uuids::uuid::ToString %{public override%};
 %extend boost::uuids::uuid
@@ -35,8 +36,6 @@ namespace boost {namespace uuids {class uuid{};}}
 %ignore org::bcom::xpcf::toUUID(const char * uuidString);
 %ignore org::bcom::xpcf::toUUID(const std::string & uuidString);
 %include "xpcf/core/uuid.h"
-
-%include "xpcf/core/traits.h"
 
 namespace boost {namespace movelib {}}
 %include "xpcf/core/refs.h"

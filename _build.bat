@@ -51,5 +51,5 @@ ECHO ---------------- Edit for Android support ----------------------
 ECHO DIR : %OUT%
 PUSHD
 CD /D %OUT%
-POWERSHELL -command "Get-ChildItem -Path .\ -Filter *PINVOKE.cs -Recurse -File -Name | ForEach-Object {echo """# $_""";[System.IO.File]::WriteAllText($_,([System.IO.File]::ReadAllText($_) -replace 'static void SetPending','[AOT.MonoPInvokeCallback(typeof(ExceptionDelegate))] static void SetPending' -replace 'static string CreateString','[AOT.MonoPInvokeCallback(typeof(SWIGStringDelegate))] static string CreateString'))}"
+::POWERSHELL -command "Get-ChildItem -Path .\ -Filter *PINVOKE.cs -Recurse -File -Name | ForEach-Object {echo """# $_""";[System.IO.File]::WriteAllText($_,([System.IO.File]::ReadAllText($_) -replace 'static void SetPending','[AOT.MonoPInvokeCallback(typeof(ExceptionDelegate))] static void SetPending' -replace 'static string CreateString','[AOT.MonoPInvokeCallback(typeof(SWIGStringDelegate))] static string CreateString'))}"
 POPD

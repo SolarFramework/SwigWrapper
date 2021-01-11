@@ -1,5 +1,8 @@
 %module xpcf_remoting
 %{
+#include "xpcf/xpcf.h" // Because of missing STD
+using uint = std::size_t; // Because of undef uint in ISerializable
+
 #include "xpcf/remoting/BaseBuffer.h"
 #include "xpcf/remoting/IGrpcServerManager.h"
 #include "xpcf/remoting/IGrpcService.h"
@@ -29,9 +32,10 @@
 %include "xpcf/remoting/BaseBuffer.h"
 
 //#include <xpcf/remoting/BaseBuffer.h>
-//%include "xpcf/remoting/ISerializable.h" //TODO Error
+//%include "xpcf/remoting/ISerializable.h" //TODO Error std::tuple<Args...>
 
-namespace grpc {class Service {};}
+%nodefaultctor grpc::Service;
+namespace grpc{class Service{};}
 %include "xpcf/remoting/IGrpcService.h"
 
 //#include <xpcf/remoting/IGrpcService.h>

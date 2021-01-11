@@ -20,7 +20,6 @@
 
 %include "xpcf/component/ComponentTraits.h"
 
-//#include "xpcf/core/uuid.h"
 //#include "xpcf/api/InterfaceTraits.h"
 //#include "xpcf/component/ComponentTraits.h"
 %include "xpcf/core/traits.h"

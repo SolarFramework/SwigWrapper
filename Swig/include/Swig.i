@@ -19,6 +19,7 @@
 %include "std_deque.i"
 %include "std_map.i" // SWIG typemaps for std::map< K, T, C >
 %include "std_pair.i" // SWIG typemaps for std::pair
+%include "std_set.i" // SWIG typemaps for std::set<T>
 //%include "std_shared_ptr.i" // boost_shared_ptr using std
 %include "std_string.i" // Typemaps for std::string and const std::string&
 %include "std_vector.i" // SWIG typemaps for std::vector<T>
@@ -43,10 +44,15 @@
 // To use non-const std::string references
 %apply const std::string & {std::string &};
 
-
 %{
 #include <xpcf/xpcf.h>
 %}
+
+// Use System.IntPtr from C# for void* pointers
+%apply void *VOID_INT_PTR { void * }
+%apply void *VOID_INT_PTR { float * }
+//%apply void *VOID_INT_PTR { char * }
+%apply void *VOID_INT_PTR { unsigned char * }
 
 %exception {
 	try {
