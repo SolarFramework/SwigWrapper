@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/github/license/SolARFramework/SwigWrapper?style=flat-square&label=License)](https://www.apache.org/licenses/LICENSE-2.0)
 
-The **SolAR Wrapper** is made of several [SWIG](http://www.swig.org/) scripts which allow us to use the whole SolAR API in languages other than C++, such as C# for Unity environment. But we can imagine other languages like Java, Python...
+The **SolAR Wrapper** is made of several [SWIG](http://www.swig.org/) interfaces which allow us to use the whole SolAR API in languages other than C++, such as C# for Unity environment. But we can imagine other languages like Java, Python...
 
 The Simplified Wrapper and Interface Generator (SWIG) is an open-source software tool used to connect computer programs or libraries written in C or C++ with scripting languages such as Lua, Perl, PHP, Python, R, Ruby, Tcl, and other languages like C#, Java, JavaScript, Go, D, OCaml, Octave, Scilab and Scheme. Output can also be in the form of XML.
 

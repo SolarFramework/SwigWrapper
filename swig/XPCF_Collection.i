@@ -45,12 +45,6 @@
 %include "xpcf/collection/IEnumerator.h"
 
 //#include "xpcf/collection/IEnumerator.h"
-//%include "xpcf/collection/Enumerator.h" //TODO Error
-
-//#include "Enumerator.h"
-//%include "xpcf/collection/BlockEnumerator.h" //TODO Error
-
-//#include "xpcf/collection/IEnumerator.h"
 %typemap(csimports) org::bcom::xpcf::IEnumerable
 %{
 	using System.Collections;
@@ -73,10 +67,18 @@
 //#include "xpcf/collection/IEnumerable.h"
 %include "xpcf/collection/ICollection.h"
 
+/* Useless
+//#include "xpcf/collection/IEnumerator.h"
+//%include "xpcf/collection/Enumerator.h" //TODO Error
+
+//#include "Enumerator.h"
+//%include "xpcf/collection/BlockEnumerator.h" //TODO Error
+
 //#include <xpcf/collection/ICollection.h>
 //#include <xpcf/collection/Enumerator.h>
 //#include <xpcf/collection/BlockEnumerator.h>
 //%include "xpcf/collection/Collection.h" //TODO Error
+// */
 
 ///
 
