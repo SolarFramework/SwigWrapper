@@ -36,6 +36,8 @@
 
 %include "api/display/I3DPointsViewer.h"
 
+%apply int *OUTPUT {char& key};
 %include "api/display/IImageViewer.h"
+%clear char& key;
 
 %include "api/display/IMatchesOverlay.h"

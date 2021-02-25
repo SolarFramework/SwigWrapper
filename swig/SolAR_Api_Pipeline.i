@@ -1,6 +1,8 @@
 %module solar_api_pipeline
 %{
+#include "api/pipeline/IMappingPipeline.h"
 #include "api/pipeline/IPipeline.h"
+#include "api/pipeline/IPoseEstimationPipeline.h"
 %}
 
 %include "Swig.i"
@@ -22,8 +24,16 @@
 
 ///
 
+%shared_ptr(SolAR::api::pipeline::IMappingPipeline)
 %shared_ptr(SolAR::api::pipeline::IPipeline)
+%shared_ptr(SolAR::api::pipeline::IPoseEstimationPipeline)
 
 ///
 
 %include "api/pipeline/IPipeline.h"
+
+//#include "api/pipeline/IPipeline.h"
+%include "api/pipeline/IMappingPipeline.h"
+
+//#include "api/pipeline/IPipeline.h"
+%include "api/pipeline/IPoseEstimationPipeline.h"

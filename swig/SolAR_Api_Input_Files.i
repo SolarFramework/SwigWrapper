@@ -4,6 +4,8 @@
 #include "api/input/files/IMarker2DNaturalImage.h"
 #include "api/input/files/IMarker2DSquared.h"
 #include "api/input/files/IMarker2DSquaredBinary.h"
+#include "api/input/files/IPointCloudLoader.h"
+#include "api/input/files/ITrackableLoader.h"
 %}
 
 %include "Swig.i"
@@ -25,16 +27,22 @@
 %shared_ptr(SolAR::api::input::files::IMarker2DNaturalImage)
 %shared_ptr(SolAR::api::input::files::IMarker2DSquared)
 %shared_ptr(SolAR::api::input::files::IMarker2DSquaredBinary)
+%shared_ptr(SolAR::api::input::files::IPointCloudLoader)
+%shared_ptr(SolAR::api::input::files::ITrackableLoader)
 
 ///
 
 %include "api/input/files/IMarker.h"
 
-//%include "IMarker.i"
+//#include "IMarker.h"
 %include "api/input/files/IMarker2DSquared.h"
 
-//%include "IMarker2DSquared.i"
+//#include "IMarker2DSquared.h"
+%include "api/input/files/IMarker2DNaturalImage.h"
+
+//#include "IMarker2DSquared.h"
 %include "api/input/files/IMarker2DSquaredBinary.h"
 
-//%include "IMarker2DSquared.i"
-%include "api/input/files/IMarker2DNaturalImage.h"
+%include "api/input/files/IPointCloudLoader.h"
+
+%include "api/input/files/ITrackableLoader.h"
