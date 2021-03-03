@@ -40,23 +40,25 @@
 
 ///
 
-%include "api/features/IDescriptorMatcher.h"
-
-%include "api/features/IDescriptorsExtractor.h"
-
 %include "api/features/IContoursExtractor.h"
 
 %include "api/features/IContoursFilter.h"
+
+%include "api/features/IDescriptorMatcher.h"
+
+%include "api/features/IDescriptorsExtractor.h"
 
 %include "api/features/IDescriptorsExtractorSBPattern.h"
 
 %include "api/features/IKeypointDetector.h"
 
+//#include "api/features/IKeypointDetector.h"
 %include "api/features/IKeypointDetectorRegion.h"
 
+//#include "api/features/IDescriptorMatcher.h"
 %include "api/features/IKeypointsReIndexer.h"
 
 %include "api/features/IMatchesFilter.h"
 
-//%include "api/features/IDescriptorMatcher.i"
+//#include "api/features/IDescriptorMatcher.h"
 %include "api/features/ISBPatternReIndexer.h"
