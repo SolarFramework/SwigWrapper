@@ -1,7 +1,8 @@
 %module solar_api_storage
 %{
-#include "api/storage/ICovisibilityGraph.h"
+#include "api/storage/ICovisibilityGraphManager.h"
 #include "api/storage/IKeyframesManager.h"
+#include "api/storage/IMapManager.h"
 #include "api/storage/IPointCloudManager.h"
 %}
 
@@ -20,8 +21,9 @@
 
 ///
 
-%shared_ptr(SolAR::api::storage::ICovisibilityGraph)
+%shared_ptr(SolAR::api::storage::ICovisibilityGraphManager)
 %shared_ptr(SolAR::api::storage::IKeyframesManager)
+%shared_ptr(SolAR::api::storage::IMapManager)
 %shared_ptr(SolAR::api::storage::IPointCloudManager)
 
 ///
@@ -40,14 +42,23 @@ namespace std{template<typename A,typename B,typename C> class tuple{};}
 %apply float *OUTPUT {float & minTotalWeights};
 %apply float *OUTPUT {float & maxTotalWeights};
 //%apply float *OUTPUT {std::vector<uint32_t> & path};
-%include "api/storage/ICovisibilityGraph.h"
+
+// TODO: manage std::unique_lock
+%ignore SolAR::api::storage::ICovisibilityGraphManager::getCovisibilityGraph;
+%include "api/storage/ICovisibilityGraphManager.h"
 %clear float & weight;
 %clear float & minTotalWeights;
 %clear float & maxTotalWeights;
 
-%ignore SolAR::api::storage::IKeyframesManager::addKeyframe(const datastructure::Keyframe & keyframe);
+// TODO: manage std::unique_lock
+%ignore SolAR::api::storage::IKeyframesManager::getKeyframeCollection;
+%rename (addSRefKeyframe) SolAR::api::storage::IKeyframesManager::addKeyframe(boost::shared_ptr<SolAR::datastructure::Keyframe> const);
 %include "api/storage/IKeyframesManager.h"
 
-%ignore SolAR::api::storage::IPointCloudManager::addPoint(const datastructure::CloudPoint & point);
+%include "api/storage/IMapManager.h"
+
+// TODO: manage std::unique_lock
+%ignore SolAR::api::storage::IPointCloudManager::getPointCloud;
+%rename (addSRefPoint) SolAR::api::storage::IPointCloudManager::addPoint(boost::shared_ptr<SolAR::datastructure::CloudPoint> const);
 %ignore SolAR::api::storage::IPointCloudManager::addPoints(const std::vector<datastructure::CloudPoint> & points);
 %include "api/storage/IPointCloudManager.h"

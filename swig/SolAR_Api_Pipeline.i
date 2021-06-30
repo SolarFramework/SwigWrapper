@@ -1,8 +1,10 @@
 %module solar_api_pipeline
 %{
 #include "api/pipeline/IMappingPipeline.h"
+#include "api/pipeline/IMapUpdatePipeline.h"
 #include "api/pipeline/IPipeline.h"
 #include "api/pipeline/IPoseEstimationPipeline.h"
+#include "api/pipeline/IRelocalizationPipeline.h"
 %}
 
 %include "Swig.i"
@@ -25,15 +27,23 @@
 ///
 
 %shared_ptr(SolAR::api::pipeline::IMappingPipeline)
+%shared_ptr(SolAR::api::pipeline::IMapUpdatePipeline)
 %shared_ptr(SolAR::api::pipeline::IPipeline)
 %shared_ptr(SolAR::api::pipeline::IPoseEstimationPipeline)
+%shared_ptr(SolAR::api::pipeline::IRelocalizationPipeline)
 
 ///
 
 %include "api/pipeline/IPipeline.h"
 
-//#include "api/pipeline/IPipeline.h"
+//#include "api/pipeline/IMappingPipeline.h"
 %include "api/pipeline/IMappingPipeline.h"
 
-//#include "api/pipeline/IPipeline.h"
+//#include "api/pipeline/IMapUpdatePipeline.h"
+%include "api/pipeline/IMapUpdatePipeline.h"
+
+//#include "api/pipeline/IPoseEstimationPipeline.h"
 %include "api/pipeline/IPoseEstimationPipeline.h"
+
+//#include "api/pipeline/IRelocalizationPipeline.h"
+%include "api/pipeline/IRelocalizationPipeline.h"

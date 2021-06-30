@@ -10,7 +10,7 @@
 #include "api/solver/pose/I3DTransformFinderFrom3D3D.h"
 #include "api/solver/pose/I3DTransformSACFinderFrom2D3D.h"
 #include "api/solver/pose/I3DTransformSACFinderFrom3D3D.h"
-#include "api/solver/pose/IFiducialMarkerPose.h"
+#include "api/solver/pose/ITrackablePose.h"
 #include "api/solver/pose/IHomographyValidation.h"
 %}
 
@@ -42,7 +42,7 @@
 %shared_ptr(SolAR::api::solver::pose::I3DTransformFinderFrom3D3D)
 %shared_ptr(SolAR::api::solver::pose::I3DTransformSACFinderFrom2D3D)
 %shared_ptr(SolAR::api::solver::pose::I3DTransformSACFinderFrom3D3D)
-%shared_ptr(SolAR::api::solver::pose::IFiducialMarkerPose)
+%shared_ptr(SolAR::api::solver::pose::ITrackablePose)
 %shared_ptr(SolAR::api::solver::pose::IHomographyValidation)
 
 ///
@@ -67,6 +67,6 @@
 
 %include "api/solver/pose/I3DTransformSACFinderFrom3D3D.h"
 
-%include "api/solver/pose/IFiducialMarkerPose.h"
+%include "api/solver/pose/ITrackablePose.h"
 
 %include "api/solver/pose/IHomographyValidation.h"

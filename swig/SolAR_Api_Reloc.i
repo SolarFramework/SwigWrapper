@@ -1,6 +1,7 @@
 %module solar_api_reloc
 %{
 #include "api/reloc/IKeyframeRetriever.h"
+#include "api/reloc/IRegression.h"
 #include "api/reloc/IRelocalizer.h"
 %}
 
@@ -20,10 +21,13 @@
 ///
 
 %shared_ptr(SolAR::api::reloc::IKeyframeRetriever)
+
 %shared_ptr(SolAR::api::reloc::IRelocalizer)
+%shared_ptr(SolAR::api::reloc::IRegression)
 
 ///
-
+// TODO: manage std::unique_lock
+%ignore SolAR::api::reloc::IKeyframeRetriever::getKeyframeRetrieval;
 %include "api/reloc/IKeyframeRetriever.h"
-
+%include "api/reloc/IRegression.h"
 %include "api/reloc/IRelocalizer.h"

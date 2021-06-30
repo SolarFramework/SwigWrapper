@@ -4,7 +4,7 @@
 #include "api/solver/map/IKeyframeSelector.h"
 #include "api/solver/map/IMapFilter.h"
 #include "api/solver/map/IMapFusion.h"
-#include "api/solver/map/IMapper.h"
+#include "api/solver/map/IMapUpdate.h"
 #include "api/solver/map/ITriangulator.h"
 %}
 
@@ -31,7 +31,7 @@
 %shared_ptr(SolAR::api::solver::map::IKeyframeSelector)
 %shared_ptr(SolAR::api::solver::map::IMapFilter)
 %shared_ptr(SolAR::api::solver::map::IMapFusion)
-%shared_ptr(SolAR::api::solver::map::IMapper)
+%shared_ptr(SolAR::api::solver::map::IMapUpdate)
 %shared_ptr(SolAR::api::solver::map::ITriangulator)
 
 %rename(IntList) std::vector<int>;
@@ -45,12 +45,12 @@
 
 %include "api/solver/map/IMapFilter.h"
 
-%include "api/solver/map/IMapper.h"
+%include "api/solver/map/IMapUpdate.h"
 
 %include "api/solver/map/ITriangulator.h"
 
-//#include "api/solver/map/IMapper.h"
+//#include "api/solver/map/IBundler.h"
 %include "api/solver/map/IBundler.h"
 
-//#include "api/solver/map/IMapper.h"
+//#include "api/solver/map/IMapFusion.h"
 %include "api/solver/map/IMapFusion.h"
