@@ -17,7 +17,7 @@ POPD
 :SWIG
 ECHO ----------------------- SWIG wrapping -----------------------
 
-SET SOLAR_VERSION=0.9.0
+SET SOLAR_VERSION=0.9.1
 SET XPCF_VERSION=2.5.0
 SET OUT=src
 
@@ -71,7 +71,7 @@ ECHO ----------------------- Patch completed -----------------------
 
 ECHO ----------------------- Copy to REMAKEN_PKG_ROOT -----------------------
 
-SET SOLAR_WRAPPER_VERSION=0.9.0
+SET SOLAR_WRAPPER_VERSION=0.9.1
 SET OUT=%REMAKEN_PKG_ROOT%/packages/SolARBuild/%COMPILER%/SolARWrapper/%SOLAR_WRAPPER_VERSION%/%LANG%
 
 IF EXIST "%OUT%" RMDIR "%OUT%" /S /Q
