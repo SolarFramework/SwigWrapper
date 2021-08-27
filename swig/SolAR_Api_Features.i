@@ -2,6 +2,7 @@
 %{
 #include "api/features/IContoursExtractor.h"
 #include "api/features/IContoursFilter.h"
+#include "api/features/ICornerRefinement.h"
 #include "api/features/IDescriptorMatcher.h"
 #include "api/features/IDescriptorsExtractor.h"
 #include "api/features/IDescriptorsExtractorSBPattern.h"
@@ -29,6 +30,7 @@
 
 %shared_ptr(SolAR::api::features::IContoursExtractor)
 %shared_ptr(SolAR::api::features::IContoursFilter)
+%shared_ptr(SolAR::api::features::ICornerRefinement)
 %shared_ptr(SolAR::api::features::IDescriptorMatcher)
 %shared_ptr(SolAR::api::features::IDescriptorsExtractor)
 %shared_ptr(SolAR::api::features::IDescriptorsExtractorSBPattern)
@@ -43,6 +45,7 @@
 %include "api/features/IContoursExtractor.h"
 
 %include "api/features/IContoursFilter.h"
+%include "api/features/ICornerRefinement.h"
 
 %include "api/features/IDescriptorMatcher.h"
 

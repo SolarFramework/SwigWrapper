@@ -30,6 +30,7 @@
 
 #include "api/features/IContoursExtractor.h"
 #include "api/features/IContoursFilter.h"
+#include "api/features/ICornerRefinement.h"
 #include "api/features/IDescriptorMatcher.h"
 #include "api/features/IDescriptorsExtractor.h"
 #include "api/features/IDescriptorsExtractorSBPattern.h"
@@ -42,11 +43,11 @@
 #include "api/fusion/IVisualInertialFusion.h"
 
 #include "api/geom/I2DTransform.h"
-#include "api/geom/IProject.h"
-#include "api/geom/IUnproject.h"
 #include "api/geom/I3DTransform.h"
 #include "api/geom/IImage2WorldMapper.h"
+#include "api/geom/IProject.h"
 #include "api/geom/IUndistortPoints.h"
+#include "api/geom/IUnproject.h"
 
 #include "api/image/IImageConvertor.h"
 #include "api/image/IImageFilter.h"
@@ -61,10 +62,6 @@
 #include "api/input/devices/IIMU.h"
 #include "api/input/devices/IRGBDCamera.h"
 
-#include "api/input/files/IMarker.h"
-#include "api/input/files/IMarker2DNaturalImage.h"
-#include "api/input/files/IMarker2DSquared.h"
-#include "api/input/files/IMarker2DSquaredBinary.h"
 #include "api/input/files/IPointCloudLoader.h"
 #include "api/input/files/ITrackableLoader.h"
 
@@ -73,13 +70,16 @@
 #include "api/loop/IOverlapDetector.h"
 
 #include "api/pipeline/IMappingPipeline.h"
+#include "api/pipeline/IMapUpdatePipeline.h"
 #include "api/pipeline/IPipeline.h"
 #include "api/pipeline/IPoseEstimationPipeline.h"
+#include "api/pipeline/IRelocalizationPipeline.h"
 
 #include "api/pointCloud/IPCFilter.h"
 #include "api/pointCloud/IPCFilterCentroid.h"
 
 #include "api/reloc/IKeyframeRetriever.h"
+#include "api/reloc/IRegression.h"
 #include "api/reloc/IRelocalizer.h"
 
 #include "api/sink/ISinkPoseImage.h"
@@ -94,7 +94,7 @@
 #include "api/solver/map/IKeyframeSelector.h"
 #include "api/solver/map/IMapFilter.h"
 #include "api/solver/map/IMapFusion.h"
-#include "api/solver/map/IMapper.h"
+#include "api/solver/map/IMapUpdate.h"
 #include "api/solver/map/ITriangulator.h"
 
 #include "api/solver/pose/I2D3DCorrespondencesFinder.h"
@@ -107,14 +107,15 @@
 #include "api/solver/pose/I3DTransformFinderFrom3D3D.h"
 #include "api/solver/pose/I3DTransformSACFinderFrom2D3D.h"
 #include "api/solver/pose/I3DTransformSACFinderFrom3D3D.h"
-#include "api/solver/pose/IFiducialMarkerPose.h"
+#include "api/solver/pose/ITrackablePose.h"
 #include "api/solver/pose/IHomographyValidation.h"
 
 #include "api/source/ISourceImage.h"
 #include "api/source/ISourceReturnCode.h"
 
-#include "api/storage/ICovisibilityGraph.h"
+#include "api/storage/ICovisibilityGraphManager.h"
 #include "api/storage/IKeyframesManager.h"
+#include "api/storage/IMapManager.h"
 #include "api/storage/IPointCloudManager.h"
 
 #include "api/tracking/IOpticalFlowEstimator.h"
@@ -201,6 +202,7 @@ BIND_TO_INTERFACE(IMatchesOverlay,	SolAR::api::display::IMatchesOverlay)
 
 BIND_TO_INTERFACE(IContoursExtractor,				SolAR::api::features::IContoursExtractor)
 BIND_TO_INTERFACE(IContoursFilter,					SolAR::api::features::IContoursFilter)
+BIND_TO_INTERFACE(ICornerRefinement,				SolAR::api::features::ICornerRefinement)
 BIND_TO_INTERFACE(IDescriptorMatcher,				SolAR::api::features::IDescriptorMatcher)
 BIND_TO_INTERFACE(IDescriptorsExtractor,			SolAR::api::features::IDescriptorsExtractor)
 BIND_TO_INTERFACE(IDescriptorsExtractorSBPattern,	SolAR::api::features::IDescriptorsExtractorSBPattern)
@@ -232,10 +234,6 @@ BIND_TO_INTERFACE(IDevice,				SolAR::api::input::devices::IDevice)
 BIND_TO_INTERFACE(IIMU,					SolAR::api::input::devices::IIMU)
 BIND_TO_INTERFACE(IRGBDCamera,			SolAR::api::input::devices::IRGBDCamera)
 
-BIND_TO_INTERFACE(IMarker,					SolAR::api::input::files::IMarker)
-BIND_TO_INTERFACE(IMarker2DNaturalImage,	SolAR::api::input::files::IMarker2DNaturalImage)
-BIND_TO_INTERFACE(IMarker2DSquared,			SolAR::api::input::files::IMarker2DSquared)
-BIND_TO_INTERFACE(IMarker2DSquaredBinary,	SolAR::api::input::files::IMarker2DSquaredBinary)
 BIND_TO_INTERFACE(IPointCloudLoader,		SolAR::api::input::files::IPointCloudLoader)
 BIND_TO_INTERFACE(ITrackableLoader,			SolAR::api::input::files::ITrackableLoader)
 
@@ -244,13 +242,16 @@ BIND_TO_INTERFACE(ILoopCorrector,		SolAR::api::loop::ILoopCorrector)
 BIND_TO_INTERFACE(IOverlapDetector,		SolAR::api::loop::IOverlapDetector)
 
 BIND_TO_INTERFACE(IMappingPipeline,			SolAR::api::pipeline::IMappingPipeline)
+BIND_TO_INTERFACE(IMapUpdatePipeline,		SolAR::api::pipeline::IMapUpdatePipeline)
 BIND_TO_INTERFACE(IPipeline,				SolAR::api::pipeline::IPipeline)
 BIND_TO_INTERFACE(IPoseEstimationPipeline,	SolAR::api::pipeline::IPoseEstimationPipeline)
+BIND_TO_INTERFACE(IRelocalizationPipeline,	SolAR::api::pipeline::IRelocalizationPipeline)
 
 BIND_TO_INTERFACE(IPCFilter,			SolAR::api::pointCloud::IPCFilter)
 BIND_TO_INTERFACE(IPCFilterCentroid,	SolAR::api::pointCloud::IPCFilterCentroid)
 
 BIND_TO_INTERFACE(IKeyframeRetriever,	SolAR::api::reloc::IKeyframeRetriever)
+BIND_TO_INTERFACE(IRegression,	SolAR::api::reloc::IRegression)
 BIND_TO_INTERFACE(IRelocalizer,			SolAR::api::reloc::IRelocalizer)
 
 BIND_TO_INTERFACE(ISinkPoseImage,			SolAR::api::sink::ISinkPoseImage)
@@ -265,7 +266,7 @@ BIND_TO_INTERFACE(IBundler,				SolAR::api::solver::map::IBundler)
 BIND_TO_INTERFACE(IKeyframeSelector,	SolAR::api::solver::map::IKeyframeSelector)
 BIND_TO_INTERFACE(IMapFilter,			SolAR::api::solver::map::IMapFilter)
 BIND_TO_INTERFACE(IMapFusion,			SolAR::api::solver::map::IMapFusion)
-BIND_TO_INTERFACE(IMapper,				SolAR::api::solver::map::IMapper)
+BIND_TO_INTERFACE(IMapUpdate,				SolAR::api::solver::map::IMapUpdate)
 BIND_TO_INTERFACE(ITriangulator,		SolAR::api::solver::map::ITriangulator)
 
 BIND_TO_INTERFACE(I2D3DCorrespondencesFinder,			SolAR::api::solver::pose::I2D3DCorrespondencesFinder)
@@ -278,14 +279,15 @@ BIND_TO_INTERFACE(I3DTransformFinderFrom2D3D,			SolAR::api::solver::pose::I3DTra
 BIND_TO_INTERFACE(I3DTransformFinderFrom3D3D,			SolAR::api::solver::pose::I3DTransformFinderFrom3D3D)
 BIND_TO_INTERFACE(I3DTransformSACFinderFrom2D3D,		SolAR::api::solver::pose::I3DTransformSACFinderFrom2D3D)
 BIND_TO_INTERFACE(I3DTransformSACFinderFrom3D3D,		SolAR::api::solver::pose::I3DTransformSACFinderFrom3D3D)
-BIND_TO_INTERFACE(IFiducialMarkerPose,					SolAR::api::solver::pose::IFiducialMarkerPose)
+BIND_TO_INTERFACE(ITrackablePose,						SolAR::api::solver::pose::ITrackablePose)
 BIND_TO_INTERFACE(IHomographyValidation,				SolAR::api::solver::pose::IHomographyValidation)
 
 BIND_TO_INTERFACE(ISourceImage,			SolAR::api::source::ISourceImage)
 //BIND_TO_INTERFACE(ISourceReturnCode,	SolAR::api::source::ISourceReturnCode) // enum class SourceReturnCode: int
 
-BIND_TO_INTERFACE(ICovisibilityGraph,	SolAR::api::storage::ICovisibilityGraph)
-BIND_TO_INTERFACE(IKeyframesManager,	SolAR::api::storage::IKeyframesManager)
-BIND_TO_INTERFACE(IPointCloudManager,	SolAR::api::storage::IPointCloudManager)
+BIND_TO_INTERFACE(ICovisibilityGraphManager,	SolAR::api::storage::ICovisibilityGraphManager)
+BIND_TO_INTERFACE(IKeyframesManager,			SolAR::api::storage::IKeyframesManager)
+BIND_TO_INTERFACE(IMapManager,			SolAR::api::storage::IMapManager)
+BIND_TO_INTERFACE(IPointCloudManager,			SolAR::api::storage::IPointCloudManager)
 
 BIND_TO_INTERFACE(IOpticalFlowEstimator,		SolAR::api::tracking::IOpticalFlowEstimator)
