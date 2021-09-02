@@ -14,10 +14,10 @@ pushd ${0%/*} #%~dp0
 
 LANG=csharp
 COMPILER=linux-gcc
-SOLAR_WRAPPER_VERSION=0.9.1
-SOLAR_VERSION=0.9.1
+SOLAR_WRAPPER_VERSION=0.10.0
+SOLAR_VERSION=0.10.0
 XPCF_VERSION=2.5.0
-OUT=$HOME/.remaken/packages/$COMPILER/SolARBuild/SolARWrapper/$SOLAR_WRAPPER_VERSION/$LANG
+OUT=$XPCF_MODULE_ROOT/SolARBuild/SolARWrapper/$SOLAR_WRAPPER_VERSION/$LANG
 echo OUT: $OUT 
 
 
@@ -30,8 +30,8 @@ do
     DIR=${SWIG_FILE_NAME//_/\/}
     OUTPUT="$OUT/$DIR"
     [ -d "$OUTPUT" ] && rm "$OUTPUT"/*.* || mkdir -p "$OUTPUT"
-    echo swig -c++ -$LANG -small -O -outcurrentdir -I./Swig -I./Swig/include -I$HOME/.remaken/packages/$COMPILER/xpcf/$XPCF_VERSION/interfaces -I$HOME/.remaken/packages/SolARBuild/$COMPILER/SolARFramework/$SOLAR_VERSION/interfaces -DXPCF_USE_BOOST -dllimport SolARWrapper -namespace ${SWIG_FILE_NAME//_/.} -outdir $OUTPUT $swigfile
-	swig -c++ -$LANG -small -O -outcurrentdir -I./Swig -I./Swig/include -I$HOME/.remaken/packages/$COMPILER/xpcf/$XPCF_VERSION/interfaces -I$HOME/.remaken/packages/SolARBuild/$COMPILER/SolARFramework/$SOLAR_VERSION/interfaces -DXPCF_USE_BOOST -dllimport SolARWrapper -namespace ${SWIG_FILE_NAME//_/.} -outdir $OUTPUT $swigfile
+    echo swig -c++ -$LANG -small -O -outcurrentdir -I./Swig -I./Swig/include -I$XPCF_MODULE_ROOT/xpcf/$XPCF_VERSION/interfaces -I$XPCF_MODULE_ROOT/SolARBuild/SolARFramework/$SOLAR_VERSION/interfaces -DXPCF_USE_BOOST -dllimport SolARWrapper -namespace ${SWIG_FILE_NAME//_/.} -outdir $OUTPUT $swigfile
+	swig -c++ -$LANG -small -O -outcurrentdir -I./Swig -I./Swig/include -I$XPCF_MODULE_ROOT/xpcf/$XPCF_VERSION/interfaces -I$XPCF_MODULE_ROOT/SolARBuild/SolARFramework/$SOLAR_VERSION/interfaces -DXPCF_USE_BOOST -dllimport SolARWrapper -namespace ${SWIG_FILE_NAME//_/.} -outdir $OUTPUT $swigfile
 done
 
 popd

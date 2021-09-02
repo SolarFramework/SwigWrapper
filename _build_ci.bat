@@ -11,10 +11,10 @@ setlocal ENABLEDELAYEDEXPANSION
 
 SET LANG=csharp
 SET COMPILER=win-cl-14.1
-SET SOLAR_WRAPPER_VERSION=0.9.1
-SET SOLAR_VERSION=0.9.1
+SET SOLAR_WRAPPER_VERSION=0.10.0
+SET SOLAR_VERSION=0.10.0
 SET XPCF_VERSION=2.5.0
-SET OUT=%REMAKEN_PKG_ROOT%\packages\SolARBuild\%COMPILER%\SolARWrapper\%SOLAR_WRAPPER_VERSION%\%LANG%
+SET OUT=%XPCF_MODULE_ROOT\SolARBuild\SolARWrapper\%SOLAR_WRAPPER_VERSION%\%LANG%
 
 echo ----------------------- SWIG wrapping ----------------------------
 
@@ -25,8 +25,8 @@ SET OPTIONS=^
  -outcurrentdir ^
  -I./Swig ^
  -I./Swig/include ^
- -I%REMAKEN_PKG_ROOT%/packages/%COMPILER%/xpcf/%XPCF_VERSION%/interfaces ^
- -I%REMAKEN_PKG_ROOT%/packages/SolARBuild/%COMPILER%/SolARFramework/%SOLAR_VERSION%/interfaces ^
+ -I%XPCF_MODULE_ROOT%/xpcf/%XPCF_VERSION%/interfaces ^
+ -I%XPCF_MODULE_ROOT%/SolARBuild/SolARFramework/%SOLAR_VERSION%/interfaces ^
  -DXPCF_USE_BOOST ^
  -dllimport SolARWrapper ^
  
