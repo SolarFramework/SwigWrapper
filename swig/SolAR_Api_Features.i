@@ -5,7 +5,9 @@
 #include "api/features/ICornerRefinement.h"
 #include "api/features/IDescriptorMatcher.h"
 #include "api/features/IDescriptorsExtractor.h"
+#include "api/features/IDescriptorsExtractorFromImage.h"
 #include "api/features/IDescriptorsExtractorSBPattern.h"
+#include "api/features/IImageMatcher.h"
 #include "api/features/IKeypointDetector.h"
 #include "api/features/IKeypointDetectorRegion.h"
 #include "api/features/IKeypointsReIndexer.h"
@@ -33,7 +35,9 @@
 %shared_ptr(SolAR::api::features::ICornerRefinement)
 %shared_ptr(SolAR::api::features::IDescriptorMatcher)
 %shared_ptr(SolAR::api::features::IDescriptorsExtractor)
+%shared_ptr(SolAR::api::features::IDescriptorsExtractorFromImage)
 %shared_ptr(SolAR::api::features::IDescriptorsExtractorSBPattern)
+%shared_ptr(SolAR::api::features::IImageMatcher)
 %shared_ptr(SolAR::api::features::IKeypointDetector)
 %shared_ptr(SolAR::api::features::IKeypointDetectorRegion)
 %shared_ptr(SolAR::api::features::IKeypointsReIndexer)
@@ -49,9 +53,13 @@
 
 %include "api/features/IDescriptorMatcher.h"
 
+%include "api/features/IDescriptorsExtractorFromImage.h"
+
 %include "api/features/IDescriptorsExtractor.h"
 
 %include "api/features/IDescriptorsExtractorSBPattern.h"
+
+%include "api/features/IImageMatcher.h"
 
 %include "api/features/IKeypointDetector.h"
 
