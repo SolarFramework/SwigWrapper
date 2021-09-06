@@ -1,21 +1,9 @@
 %module solar
 %{
-#include "SharedBuffer.hpp"
-#include "SharedCircularBuffer.hpp"
-#include "SharedFifo.hpp"
 %}
 
 %include "Swig.i"
 
-///
-
-%include "SharedFifo.hpp"
-
-//%include "SharedFifo.i"
-%include "SharedBuffer.hpp"
-
-//%include "SharedFifo.i"
-%include "SharedCircularBuffer.hpp"
 
 ///
 
