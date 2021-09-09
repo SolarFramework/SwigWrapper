@@ -3,6 +3,7 @@
 #include "api/image/IImageConvertor.h"
 #include "api/image/IImageFilter.h"
 #include "api/image/IImageLoader.h"
+#include "api/image/IImageRectification.h"
 #include "api/image/IPerspectiveController.h"
 %}
 
@@ -24,6 +25,7 @@
 %shared_ptr(SolAR::api::image::IImageConvertor)
 %shared_ptr(SolAR::api::image::IImageFilter)
 %shared_ptr(SolAR::api::image::IImageLoader)
+%shared_ptr(SolAR::api::image::IImageRectification)
 %shared_ptr(SolAR::api::image::IPerspectiveController)
 
 ///
@@ -33,5 +35,7 @@
 %include "api/image/IImageFilter.h"
 
 %include "api/image/IImageLoader.h"
+
+%include "api/image/IImageRectification.h"
 
 %include "api/image/IPerspectiveController.h"
