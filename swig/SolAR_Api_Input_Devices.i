@@ -4,9 +4,11 @@
 #include "api/input/devices/ICamera.h"
 #include "api/input/devices/ICameraCalibration.h"
 #include "api/input/devices/IDepthCamera.h"
+#include "api/input/devices/IARDevice.h"
 #include "api/input/devices/IDevice.h"
 #include "api/input/devices/IIMU.h"
 #include "api/input/devices/IRGBDCamera.h"
+#include "api/input/devices/IStereoCameraCalibration.h"
 %}
 
 %include "Swig.i"
@@ -31,6 +33,7 @@
 %shared_ptr(SolAR::api::input::devices::IDevice)
 %shared_ptr(SolAR::api::input::devices::IIMU)
 %shared_ptr(SolAR::api::input::devices::IRGBDCamera)
+%shared_ptr(SolAR::api::input::devices::IStereoCameraCalibration)
 
 ///
 
@@ -55,3 +58,5 @@
 //#include "api/input/devices/IDepthCamera.h"
 %ignore SolAR::api::input::devices::IRGBDCamera;
 %include "api/input/devices/IRGBDCamera.h"
+
+%include "api/input/devices/IStereoCameraCalibration.h"
