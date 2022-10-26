@@ -18,7 +18,7 @@ POPD
 ECHO ----------------------- SWIG wrapping -----------------------
 
 SET SOLAR_VERSION=0.11.0
-SET XPCF_VERSION=2.5.0
+SET XPCF_VERSION=2.5.3
 SET OUT=src
 
 IF NOT EXIST "%OUT%" MKDIR "%OUT%"

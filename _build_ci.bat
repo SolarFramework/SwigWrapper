@@ -13,7 +13,7 @@ SET LANG=csharp
 SET COMPILER=win-cl-14.1
 SET SOLAR_WRAPPER_VERSION=0.10.0
 SET SOLAR_VERSION=0.10.0
-SET XPCF_VERSION=2.5.0
+SET XPCF_VERSION=2.5.3
 SET OUT=%XPCF_MODULE_ROOT\SolARBuild\SolARWrapper\%SOLAR_WRAPPER_VERSION%\%LANG%
 
 echo ----------------------- SWIG wrapping ----------------------------
